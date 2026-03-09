@@ -11,7 +11,7 @@ Next, enter the URL of your update file, the total flash size, page size, and hi
 As soon as you click connect, the DFU process will begin:
 
 - Erasing all pages for the flash size specified
-- Programming 2048 bytes at a time from the `.bin` file given
+- Programming 1024 bytes at a time from the `.bin` file given
 - Resetting the device and running the newly programmed application
 
 For details on how the USB DFU works. Look at the `usbDfuDevice.js` file. You can easily integrated it into your own web app. See how it's done inside `index.html`

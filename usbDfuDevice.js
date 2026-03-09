@@ -396,11 +396,11 @@ let usbDfuDevice = class {
             // Check again if it was successful
             await this.getStatus();
 
-            // Calculate the total blocks to flash. A block can be up to 2048 bytes
-            let totalBlocks = Math.ceil(fileArr.byteLength / 2048);
+            // Calculate the total blocks to flash. A block can be up to 1024 bytes
+            let totalBlocks = Math.ceil(fileArr.byteLength / 1024);
 
             // If the the total blocks is bigger than the flash size, throw an error
-            if ((totalBlocks * 2048) > (this.flashEnd - 0x08000000)) {
+            if ((totalBlocks * 1024) > (this.flashEnd - 0x08000000)) {
                 throw ("Error: File size is bigger than flash size");
             }
 
@@ -411,11 +411,11 @@ let usbDfuDevice = class {
                 console.log("Programming block " + (block + 1) + " of " + totalBlocks);
 
                 // Calculate the data offset and bounds based on the current block
-                let dataStart = block * 2048;
-                let dataEnd = dataStart + 2048;
+                let dataStart = block * 1024;
+                let dataEnd = dataStart + 1024;
 
-                // Create 2048 sized data buffer to send
-                let blockData = new Uint8Array(2048);
+                // Create 1024 sized data buffer to send
+                let blockData = new Uint8Array(1024);
 
                 // Copy data from the file to the dat buffer
                 blockData.set(new Uint8Array(fileArr.slice(dataStart, dataEnd)));
@@ -427,7 +427,7 @@ let usbDfuDevice = class {
                     request: this.dfuRequest.DFU_DNLOAD,
                     value: 2 + block, // wValue should be the block number + 2 
                     index: 0
-                }, blockData); // 2048 byte block of data to program
+                }, blockData); // 1024 byte block of data to program
 
                 // Issue a get status to apply the operation
                 await this.getStatus();
